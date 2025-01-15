@@ -11,19 +11,9 @@ namespace Alura.Adopet.Console.Servicos
     {
         HttpClient client;
 
-        public HttpClientPet(string url)
+        public HttpClientPet(HttpClient client)
         {
-            this.client = ConfiguraHttpClient(url);
-        }
-
-        private HttpClient ConfiguraHttpClient(string url)
-        {
-            HttpClient _client = new HttpClient();
-            _client.DefaultRequestHeaders.Accept.Clear();
-            _client.DefaultRequestHeaders.Accept.Add(
-                new MediaTypeWithQualityHeaderValue("application/json"));
-            _client.BaseAddress = new Uri(url);
-            return _client;
+            this.client = client;
         }
 
         public async Task<IEnumerable<Pet>?> ListPetsAsync()

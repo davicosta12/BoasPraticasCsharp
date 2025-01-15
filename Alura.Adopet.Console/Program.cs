@@ -2,12 +2,14 @@
 using System.Net.Http.Json;
 using Alura.Adopet.Console;
 using Alura.Adopet.Console.Comandos;
+using Alura.Adopet.Console.Servicos;
 
+var httpClientPet = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
 Dictionary<string, IComando> comandosDoSistema = new()
 {
     {"help", new Help()},
-    {"import", new Import()},
-    {"list", new List()},
+    {"import", new Import(httpClientPet)},
+    {"list", new List(httpClientPet)},
     {"show", new Show()},
 };
 

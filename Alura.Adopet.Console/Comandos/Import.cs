@@ -9,11 +9,11 @@ documentacao: "adopet import <ARQUIVO> comando que realiza a importação do arq
 
     public class Import : IComando
     {
-        HttpClientPet client;
+        HttpClientPet httpClientPet;
 
-        public Import()
+        public Import(HttpClientPet httpClientPet)
         {
-            this.client = new("http://localhost:5057");
+            this.httpClientPet = httpClientPet;
         }
 
         public async Task ExecutarAsync(string[] args)
@@ -30,7 +30,7 @@ documentacao: "adopet import <ARQUIVO> comando que realiza a importação do arq
                 System.Console.WriteLine(pet);
                 try
                 {
-                    var resposta = await client.CreatePetAsync(pet);
+                    var resposta = await httpClientPet.CreatePetAsync(pet);
                 }
                 catch (Exception ex)
                 {

@@ -13,11 +13,11 @@ namespace Alura.Adopet.Console.Comandos
 documentacao: "adopet list <ARQUIVO> comando que exibe no terminal a lista de pets importados no sistema.")]
     public class List : IComando
     {
-        HttpClientPet client;
+        HttpClientPet httpClientPet;
 
-        public List()
+        public List(HttpClientPet httpClientPet)
         {
-            this.client = new("http://localhost:5057");
+            this.httpClientPet = httpClientPet;
         }
 
         public async Task ExecutarAsync(string[] args)
@@ -28,7 +28,7 @@ documentacao: "adopet list <ARQUIVO> comando que exibe no terminal a lista de pe
         private async Task GetPetsAsync()
         {
             System.Console.WriteLine("----- Lista de Pets importados no sistema -----");
-            IEnumerable<Pet>? pets = await client.ListPetsAsync();
+            IEnumerable<Pet>? pets = await httpClientPet.ListPetsAsync();
             foreach (var pet in pets)
             {
                 System.Console.WriteLine(pet);
