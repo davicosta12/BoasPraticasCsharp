@@ -23,8 +23,8 @@ documentacao: "adopet import <ARQUIVO> comando que realiza a importação do arq
 
         private async Task ImportacaoArquivoPet(string caminhoDoArquivoDeImportacao)
         {
-            var leitor = new LeitorDeArquivo();
-            IEnumerable<Pet> listaDePet = leitor.RealizaLeitura(caminhoDoArquivoDeImportacao);
+            var leitor = new LeitorDeArquivo(caminhoDoArquivoDeImportacao);
+            IEnumerable<Pet> listaDePet = leitor.RealizaLeitura();
             foreach (var pet in listaDePet)
             {
                 System.Console.WriteLine(pet);

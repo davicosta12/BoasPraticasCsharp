@@ -8,10 +8,18 @@ namespace Alura.Adopet.Console.Utils
 {
     public class LeitorDeArquivo
     {
-        public IEnumerable<Pet> RealizaLeitura(string caminhoDoArquivoASerLido)
+        private readonly string caminhoArquivo;
+
+        public LeitorDeArquivo(string caminhoDoArquivo)
+        {
+            this.caminhoArquivo = caminhoDoArquivo;
+        }
+
+        public IEnumerable<Pet>? RealizaLeitura()
         {
             List<Pet> listaDePet = new();
-            using (StreamReader sr = new StreamReader(caminhoDoArquivoASerLido))
+            if (string.IsNullOrEmpty(this.caminhoArquivo)) return null;
+            using (StreamReader sr = new StreamReader(this.caminhoArquivo))
             {
                 System.Console.WriteLine("----- Serão importados os dados abaixo -----");
                 while (!sr.EndOfStream)

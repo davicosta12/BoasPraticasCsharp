@@ -18,8 +18,8 @@ documentacao: "adopet show <ARQUIVO> comando que exibe no terminal o conteúdo d
 
         private void ShowFileContent(string caminhoASerExibido)
         {
-            LeitorDeArquivo leitor = new();
-            var listaDePets = leitor.RealizaLeitura(caminhoASerExibido);
+            LeitorDeArquivo leitor = new LeitorDeArquivo(caminhoASerExibido);
+            var listaDePets = leitor.RealizaLeitura();
 
             foreach (var pet in listaDePets)
             {
