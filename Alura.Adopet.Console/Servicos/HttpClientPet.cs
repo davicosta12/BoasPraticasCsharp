@@ -22,7 +22,7 @@ namespace Alura.Adopet.Console.Servicos
             return await response.Content.ReadFromJsonAsync<IEnumerable<Pet>>();
         }
 
-        public Task<HttpResponseMessage> CreatePetAsync(Pet pet)
+        public virtual Task<HttpResponseMessage> CreatePetAsync(Pet pet)
         {
             HttpResponseMessage? response = null;
             using (response = new HttpResponseMessage())

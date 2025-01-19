@@ -4,6 +4,7 @@ using System.Linq;
 using System.Reflection;
 using System.Threading.Tasks;
 using Alura.Adopet.Console.Utils;
+using FluentResults;
 
 namespace Alura.Adopet.Console.Comandos
 {
@@ -19,10 +20,17 @@ namespace Alura.Adopet.Console.Comandos
             docs = Assembly.GetExecutingAssembly().ToDictionary();
         }
 
-        public Task ExecutarAsync(string[] args)
+        public Task<Result> ExecutarAsync(string[] args)
         {
-            this.ShowHelpCommands(parametros: args);
-            return Task.CompletedTask;
+            try
+            {
+                this.ShowHelpCommands(parametros: args);
+                return Task.FromResult(Result.Ok());
+            }
+            catch (Exception ex)
+            {
+                return Task.FromResult(Result.Fail(new Error("Exibição da documentação falhou!").CausedBy(ex)));
+            }
         }
 
         private void ShowHelpCommands(string[] parametros)

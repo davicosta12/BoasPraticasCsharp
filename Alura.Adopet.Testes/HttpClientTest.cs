@@ -1,6 +1,7 @@
 using System.Net;
 using System.Net.Sockets;
 using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Testes.Builders;
 using Moq;
 using Moq.Protected;
 
@@ -12,7 +13,6 @@ public class UnitTest1
     public async Task ListaPetsDeveRetornarUmaListaNaoVazia()
     {
         //Arrange
-        var handlerMock = new Mock<HttpMessageHandler>();
         var response = new HttpResponseMessage
         {
             StatusCode = HttpStatusCode.OK,
@@ -58,13 +58,7 @@ public class UnitTest1
             "),
         };
 
-        handlerMock
-           .Protected()
-           .Setup<Task<HttpResponseMessage>>(
-              "SendAsync",
-              ItExpr.IsAny<HttpRequestMessage>(),
-              ItExpr.IsAny<CancellationToken>())
-           .ReturnsAsync(response);
+        var handlerMock = HttpClientMockBuilder.CriaHttpClientMock(response);
 
         var httpClient = new Mock<HttpClient>(MockBehavior.Default, handlerMock.Object);
         httpClient.Object.BaseAddress = new Uri("http://localhost:5057");
@@ -96,7 +90,7 @@ public class UnitTest1
         httpClient.Object.BaseAddress = new Uri("http://localhost:5057");
 
         var clientePet = new HttpClientPet(httpClient.Object);
-        
+
         //Act+Assert
         await Assert.ThrowsAnyAsync<Exception>(() => clientePet.ListPetsAsync());
     }

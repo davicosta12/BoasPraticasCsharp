@@ -15,10 +15,10 @@ namespace Alura.Adopet.Console.Utils
             this.caminhoArquivo = caminhoDoArquivo;
         }
 
-        public IEnumerable<Pet>? RealizaLeitura()
+        public virtual IEnumerable<Pet>? RealizaLeitura()
         {
-            List<Pet> listaDePet = new();
             if (string.IsNullOrEmpty(this.caminhoArquivo)) return null;
+            List<Pet> listaDePet = new();
             using (StreamReader sr = new StreamReader(this.caminhoArquivo))
             {
                 System.Console.WriteLine("----- Serão importados os dados abaixo -----");
