@@ -15,8 +15,8 @@ documentacao: "adopet show <ARQUIVO> comando que exibe no terminal o conteúdo d
         {
             try
             {
-                this.ShowFileContent(caminhoASerExibido: args[1]);
-                return Task.FromResult(Result.Ok());
+                var result = this.ShowFileContent(caminhoASerExibido: args[1]);
+                return Task.FromResult(result);
             }
             catch (Exception ex)
             {
@@ -24,15 +24,11 @@ documentacao: "adopet show <ARQUIVO> comando que exibe no terminal o conteúdo d
             }
         }
 
-        private void ShowFileContent(string caminhoASerExibido)
+        private Result ShowFileContent(string caminhoASerExibido)
         {
             LeitorDeArquivo leitor = new LeitorDeArquivo(caminhoASerExibido);
             var listaDePets = leitor.RealizaLeitura();
-
-            foreach (var pet in listaDePets)
-            {
-                System.Console.WriteLine(pet);
-            }
+            return Result.Ok().WithSuccess(new SuccessWithPets(listaDePets, "A Exibição do conteúdo do arquivo importado foi Realizada com Sucesso!"));
         }
     }
 }

@@ -7,7 +7,7 @@ namespace Alura.Adopet.Console.Utils
     {
         public IEnumerable<Pet> Data { get; }
 
-        public SuccessWithPets(IEnumerable<Pet> data)
+        public SuccessWithPets(IEnumerable<Pet> data, string mensagem) : base(mensagem)
         {
             Data = data;
         }

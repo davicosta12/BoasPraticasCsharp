@@ -8,7 +8,7 @@ namespace Alura.Adopet.Console.Utils
 {
     public class LeitorDeArquivo
     {
-        private readonly string caminhoArquivo;
+        private string caminhoArquivo;
 
         public LeitorDeArquivo(string caminhoDoArquivo)
         {
@@ -21,7 +21,6 @@ namespace Alura.Adopet.Console.Utils
             List<Pet> listaDePet = new();
             using (StreamReader sr = new StreamReader(this.caminhoArquivo))
             {
-                System.Console.WriteLine("----- Serão importados os dados abaixo -----");
                 while (!sr.EndOfStream)
                 {
                     string linha = sr.ReadLine();

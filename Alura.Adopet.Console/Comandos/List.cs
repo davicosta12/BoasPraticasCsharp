@@ -6,6 +6,7 @@ using System.Net.Http.Json;
 using System.Threading.Tasks;
 using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos;
+using Alura.Adopet.Console.Utils;
 using FluentResults;
 
 namespace Alura.Adopet.Console.Comandos
@@ -35,13 +36,8 @@ documentacao: "adopet list <ARQUIVO> comando que exibe no terminal a lista de pe
 
         private async Task<Result> GetPetsAsync()
         {
-            System.Console.WriteLine("----- Lista de Pets importados no sistema -----");
-            IEnumerable<Pet>? pets = await httpClientPet.ListPetsAsync();
-            foreach (var pet in pets)
-            {
-                System.Console.WriteLine(pet);
-            }
-            return Result.Ok();
+            IEnumerable<Pet>? listaDePets = await httpClientPet.ListPetsAsync();
+            return Result.Ok().WithSuccess(new SuccessWithPets(listaDePets, "Importação da lista de pets foi Realizada com Sucesso!"));
         }
     }
 }

@@ -24,8 +24,8 @@ namespace Alura.Adopet.Console.Comandos
         {
             try
             {
-                this.ShowHelpCommands(parametros: args);
-                return Task.FromResult(Result.Ok());
+                return Task.FromResult(Result.Ok()
+                    .WithSuccess(new SuccessWithDocs(this.CreateHelpCommands(parametros: args))));
             }
             catch (Exception ex)
             {
@@ -33,19 +33,14 @@ namespace Alura.Adopet.Console.Comandos
             }
         }
 
-        private void ShowHelpCommands(string[] parametros)
+        private IEnumerable<string> CreateHelpCommands(string[] parametros)
         {
-            System.Console.WriteLine("Lista de comandos.");
-
+            List<string> resultado = new();
             if (parametros.Length == 1)
             {
-                System.Console.WriteLine("Adopet (1.0) - Aplicativo de linha de comando (CLI).");
-                System.Console.WriteLine("Realiza a importação em lote de um arquivos de pets.");
-                System.Console.WriteLine("Comando possíveis: ");
-
                 foreach (var doc in docs.Values)
                 {
-                    System.Console.WriteLine(doc.Documentacao);
+                    resultado.Add(doc.Documentacao);
                 }
             }
             else if (parametros.Length == 2)
@@ -54,9 +49,14 @@ namespace Alura.Adopet.Console.Comandos
                 if (docs.ContainsKey(comandoASerExibido))
                 {
                     var comando = docs[comandoASerExibido];
-                    System.Console.WriteLine(comando.Documentacao);
+                    resultado.Add(comando.Documentacao);
+                }
+                else
+                {
+                    resultado.Add("Comando não encontrado!");
                 }
             }
+            return resultado;
         }
     }
 }
