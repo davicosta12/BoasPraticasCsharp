@@ -1,5 +1,4 @@
 using Alura.Adopet.Console.Modelos;
-using Alura.Adopet.Console.Servicos;
 using Alura.Adopet.Console.Utils;
 using Moq;
 

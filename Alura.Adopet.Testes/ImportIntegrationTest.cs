@@ -1,9 +1,7 @@
 using Alura.Adopet.Console.Comandos;
 using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos;
-using Alura.Adopet.Console.Utils;
 using Alura.Adopet.Testes.Builders;
-using Moq;
 
 namespace Alura.Adopet.Testes
 {
@@ -23,10 +21,9 @@ namespace Alura.Adopet.Testes
             var httpClientPet = new HttpClientPet(new AdopetAPIClientFactory().CreateClient("adopet"));
 
             var import = new Import(httpClientPet, leitorDeArquivo.Object);
-            string[] args = { "import", "lista.csv" };
 
             //Act
-            await import.ExecutarAsync(args);
+            await import.ExecutarAsync();
 
             //Assert
             var listaPet = await httpClientPet.ListPetsAsync();

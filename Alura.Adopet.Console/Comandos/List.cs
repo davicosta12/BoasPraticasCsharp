@@ -1,9 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Net.Http.Headers;
-using System.Net.Http.Json;
-using System.Threading.Tasks;
 using Alura.Adopet.Console.Modelos;
 using Alura.Adopet.Console.Servicos;
 using Alura.Adopet.Console.Utils;
@@ -15,14 +9,14 @@ namespace Alura.Adopet.Console.Comandos
 documentacao: "adopet list <ARQUIVO> comando que exibe no terminal a lista de pets importados no sistema.")]
     public class List : IComando
     {
-        HttpClientPet httpClientPet;
+        private readonly HttpClientPet httpClientPet;
 
         public List(HttpClientPet httpClientPet)
         {
             this.httpClientPet = httpClientPet;
         }
 
-        public async Task<Result> ExecutarAsync(string[] args)
+        public async Task<Result> ExecutarAsync()
         {
             try
             {

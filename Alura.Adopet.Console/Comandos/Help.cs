@@ -1,8 +1,4 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Reflection;
-using System.Threading.Tasks;
 using Alura.Adopet.Console.Utils;
 using FluentResults;
 
@@ -13,47 +9,48 @@ namespace Alura.Adopet.Console.Comandos
     "adopet help <NOME_COMANDO> que exibe informações da ajuda.")]
     public class Help : IComando
     {
-        private Dictionary<string, DocComando> docs;
+        private readonly Dictionary<string, DocComando> docs;
+        private readonly string? comando;
 
-        public Help()
+        public Help(string? comando)
         {
             docs = Assembly.GetExecutingAssembly().ToDictionary();
+            this.comando = comando;
         }
 
-        public Task<Result> ExecutarAsync(string[] args)
+        public Task<Result> ExecutarAsync()
         {
             try
             {
                 return Task.FromResult(Result.Ok()
-                    .WithSuccess(new SuccessWithDocs(this.CreateHelpCommands(parametros: args))));
+                    .WithSuccess(new SuccessWithDocs(this.CreateHelpCommands())));
             }
             catch (Exception ex)
             {
-                return Task.FromResult(Result.Fail(new Error("Exibição da documentação falhou!").CausedBy(ex)));
+                return Task.FromResult(Result.Fail(new Error(ex.Message ?? "Exibição da documentação falhou!").CausedBy(ex)));
             }
         }
 
-        private IEnumerable<string> CreateHelpCommands(string[] parametros)
+        private IEnumerable<string> CreateHelpCommands()
         {
             List<string> resultado = new();
-            if (parametros.Length == 1)
+            if (this.comando is null)
             {
                 foreach (var doc in docs.Values)
                 {
                     resultado.Add(doc.Documentacao);
                 }
             }
-            else if (parametros.Length == 2)
+            else
             {
-                string comandoASerExibido = parametros[1];
-                if (docs.ContainsKey(comandoASerExibido))
+                if (docs.ContainsKey(this.comando))
                 {
-                    var comando = docs[comandoASerExibido];
+                    var comando = docs[this.comando];
                     resultado.Add(comando.Documentacao);
                 }
                 else
                 {
-                    resultado.Add("Comando não encontrado!");
+                    throw new ArgumentException("Comando não encontrado!");
                 }
             }
             return resultado;

@@ -1,7 +1,3 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Threading.Tasks;
 using Alura.Adopet.Console.Utils;
 using FluentResults;
 
@@ -11,11 +7,18 @@ namespace Alura.Adopet.Console.Comandos
 documentacao: "adopet show <ARQUIVO> comando que exibe no terminal o conteúdo do arquivo importado.")]
     public class Show : IComando
     {
-        public Task<Result> ExecutarAsync(string[] args)
+        private readonly LeitorDeArquivo leitor;
+
+        public Show(LeitorDeArquivo leitor)
+        {
+            this.leitor = leitor;
+        }
+
+        public Task<Result> ExecutarAsync()
         {
             try
             {
-                var result = this.ShowFileContent(caminhoASerExibido: args[1]);
+                var result = this.ShowFileContent();
                 return Task.FromResult(result);
             }
             catch (Exception ex)
@@ -24,10 +27,9 @@ documentacao: "adopet show <ARQUIVO> comando que exibe no terminal o conteúdo d
             }
         }
 
-        private Result ShowFileContent(string caminhoASerExibido)
+        private Result ShowFileContent()
         {
-            LeitorDeArquivo leitor = new LeitorDeArquivo(caminhoASerExibido);
-            var listaDePets = leitor.RealizaLeitura();
+            var listaDePets = this.leitor.RealizaLeitura();
             return Result.Ok().WithSuccess(new SuccessWithPets(listaDePets, "A Exibição do conteúdo do arquivo importado foi Realizada com Sucesso!"));
         }
     }

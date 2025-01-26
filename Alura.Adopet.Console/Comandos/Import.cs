@@ -19,7 +19,7 @@ documentacao: "adopet import <ARQUIVO> comando que realiza a importação do arq
             this.leitor = leitorDeArquivo;
         }
 
-        public async Task<Result> ExecutarAsync(string[] args)
+        public async Task<Result> ExecutarAsync()
         {
             try
             {
